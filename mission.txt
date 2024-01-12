@@ -1,0 +1,8 @@
+========================
+day_1    create user ,movie,Reservation model
+         create Serializer.py content MoveSerializers ,UserSerializers,ReservationSerializers 
+          create api - no_rest_no_model                get
+                     - no_rest_from_model              get
+                     - fbv_user                        get-post
+                     - fbv_user_id                     get-put-delete
+========================
