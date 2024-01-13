@@ -1,8 +1,13 @@
 ========================
 day_1    create user ,movie,Reservation model
          create Serializer.py content MoveSerializers ,UserSerializers,ReservationSerializers 
-          create api - no_rest_no_model                get
+         create api  - no_rest_no_model                get
                      - no_rest_from_model              get
                      - fbv_user                        get-post
                      - fbv_user_id                     get-put-delete
 ========================
+day_2    create api  - CBV_List                      get-post
+                     - CBV_pk                        get-put-delete
+                     - mixins_list                   get-post
+                     - mixins_pk                     get-put-delete
+========================                        
