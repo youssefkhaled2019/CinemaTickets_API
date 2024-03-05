@@ -1,12 +1,12 @@
 from rest_framework import serializers
-from .models import Move,User,Reservation
+from .models import Movie,User,Reservation
 
 
 
 # uuid - slug   
-class MoveSerializers(serializers.ModelSerializer):
+class MovieSerializers(serializers.ModelSerializer):
     class Meta:
-        model=Move
+        model=Movie
         fields='__all__'
 
 class UserSerializers(serializers.ModelSerializer):

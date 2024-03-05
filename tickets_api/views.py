@@ -1,13 +1,17 @@
 from django.http import HttpResponse,JsonResponse ,Http404
-from .models import Move,User,Reservation
+from .models import Movie,User,Reservation
 from  rest_framework.decorators import api_view
-from .serializers import MoveSerializers ,UserSerializers,ReservationSerializers
+from .serializers import MovieSerializers ,UserSerializers,ReservationSerializers
 from  rest_framework.response import Response
-from  rest_framework import status ,filters ,generics,mixins
+from  rest_framework import status ,filters ,generics,mixins,viewsets
 from rest_framework.views import APIView
+
+
+from django_filters.rest_framework import DjangoFilterBackend
+
 # Create your views here.
 def home(request):
-    return HttpResponse("ddddd")
+    return HttpResponse("api")
 
 #1 without REST and no mode query FBV
 def  no_rest_no_model(request):
@@ -36,6 +40,13 @@ def no_rest_from_model(request):
 
     return JsonResponse(data) #safe=False #1
 
+# LIST =GET
+# CREARTE =POST
+
+# PK QURE=GET
+# UPDATE=PUT
+# DELETE=DELETE
+
 #function based views
 #3.1 GET POST
 @api_view(["GET","POST"])
@@ -49,8 +60,7 @@ def fbv_user(request):
        if(serializer.is_valid()):
            serializer.save()
            return Response(serializer.data,status=status.HTTP_201_CREATED)
-       return Response({"message":"error"},status=status.HTTP_400_BAD_REQUEST)
-       #return Response(serializer.data,status=status.HTTP_400_BAD_REQUEST)
+       return Response({"message":"error"},status=status.HTTP_400_BAD_REQUEST)#serializer.data
     
 
 #function based views
@@ -87,8 +97,8 @@ def fbv_user_id(request,id):
 class CBV_List(APIView):
     def get(self,request):#two pramter
          guests=User.objects.all()
-         serializer=UserSerializers(guests,many=True) #x serializer
-         return Response(serializer.data)
+         serializer_=UserSerializers(guests,many=True) #x serializer
+         return Response(serializer_.data)
     def post(self,request):
         serializer=UserSerializers(data=request.data)
         if serializer.is_valid():
@@ -151,3 +161,75 @@ class mixins_pk(mixins.RetrieveModelMixin,mixins.UpdateModelMixin,mixins.Destroy
         return self.update(request) 
     def delete(self,request,pk):
         return self.destroy(request)    
+    
+#6 Generics
+
+#6.1 GET and POST
+class generics_list(generics.ListCreateAPIView):#ListCreateAPIView ,ListAPIView
+    queryset =User.objects.all()
+    serializer_class=UserSerializers
+
+
+#6.2 GET PUT DELETE  
+class generics_pk(generics.RetrieveUpdateDestroyAPIView):
+    queryset =User.objects.all()
+    serializer_class=UserSerializers
+    
+
+#7  Viewsets  ALL 
+class viewsets_user(viewsets.ModelViewSet):
+     queryset =User.objects.all()
+     serializer_class=UserSerializers
+
+# class viewsets_pk(generics.RetrieveUpdateDestroyAPIView):
+#     queryset=User.objects.all()
+#     serializer_class=UserSerializers
+
+#---------------------A-----------------------------
+     
+
+class viewsets_movie(viewsets.ModelViewSet):
+     queryset =Movie.objects.all()
+     serializer_class=MovieSerializers
+
+    #  filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    #  filterset_fields = ["hall"]
+    #  search_fields = ["name"]
+     
+     filter_backend=[filters.SearchFilter]
+     search_fields=["name"]
+
+class viewsets_reservation(viewsets.ModelViewSet):
+     queryset =Reservation.objects.all()
+     serializer_class=ReservationSerializers
+
+#-------------------------B-------------------------
+ #8 find movie     by  function based views
+@api_view(["GET"])  #postman 
+def find_movie(request):
+
+    # movies=Movie.objects.filter(movie=request.data["movie"],hall=request.data["hall"])
+    movies=Movie.objects.filter(movie__contains=request.data["movie"]) 
+     
+    serializer=MovieSerializers(movies,many=True)
+    return Response(serializer.data)
+
+# create new reservation
+@api_view(["POST"])  #postman 
+def new_reservation(request):
+  
+    movie=Movie.objects.get(movie=request.data["movie"],hall=request.data["hall"])
+    guest=User()
+    guest.name=request.data["name"]
+    guest.mobile=request.data["mobile"]
+    guest.save()
+
+    reservation=Reservation()
+    reservation.user=guest
+    reservation.movie=movie
+    reservation.save()
+
+    serializer =ReservationSerializers(reservation)
+
+
+    return Response(serializer.data,status=status.HTTP_201_CREATED)

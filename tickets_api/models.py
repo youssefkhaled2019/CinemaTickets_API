@@ -11,13 +11,13 @@ from django.db import models
 #    ("6-9","6-9"),
 #    ("9-12","9-12"),]
 
-class Move(models.Model):
-    name =models.CharField(max_length=50)
+class Movie(models.Model):
+    movie =models.CharField(max_length=50)
     hall=models.CharField(max_length=20)#choices=h
     time=models.DateField()
     # time=models.CharField(max_length=20,choices=t ,default=t[0])
     def __str__(self):
-        return self.name
+        return self.movie
     
 class User(models.Model):
     name=models.CharField(max_length=50)
@@ -30,4 +30,4 @@ class User(models.Model):
 
 class Reservation(models.Model):
     user=models.ForeignKey(User,related_name="reservation",on_delete=models.CASCADE)
-    move=models.ForeignKey(Move,related_name="reservation",on_delete=models.CASCADE)
+    movie=models.ForeignKey(Movie,related_name="reservation",on_delete=models.CASCADE)

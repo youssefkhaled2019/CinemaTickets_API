@@ -11,3 +11,7 @@ day_2    create api  - CBV_List                      get-post
                      - mixins_list                   get-post
                      - mixins_pk                     get-put-delete
 ========================                        
+day_3    create api  - generics_list                      get-post
+                     - generics_pk                        get-put-delete
+                     - viewsets_user                   get-post-get_pk-put_pk-delete_pk
+                   

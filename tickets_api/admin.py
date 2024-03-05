@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import Move,User,Reservation
+from .models import Movie,User,Reservation
 
 # Register your models here.
-admin.site.register(Move)
+admin.site.register(Movie)
 admin.site.register(User)
 admin.site.register(Reservation)
