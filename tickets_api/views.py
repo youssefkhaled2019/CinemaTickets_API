@@ -1,13 +1,21 @@
+
+from django.shortcuts import redirect #,render,
+from django.contrib.auth import logout#,authenticate,login,
 from django.http import HttpResponse,JsonResponse ,Http404
-from .models import Movie,User,Reservation
+from .models import Movie,User2,Reservation,Post
 from  rest_framework.decorators import api_view
-from .serializers import MovieSerializers ,UserSerializers,ReservationSerializers
+from .serializers import MovieSerializers ,UserSerializers,ReservationSerializers,PostSerializers
 from  rest_framework.response import Response
-from  rest_framework import status ,filters ,generics,mixins,viewsets
+from  rest_framework import status ,filters ,generics,mixins,viewsets,permissions
 from rest_framework.views import APIView
-
-
-from django_filters.rest_framework import DjangoFilterBackend
+#----------------
+from rest_framework.authentication import BasicAuthentication,TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+#----------------
+from .permissions import IsAuthorOrReadOnly 
+#----------------
+# from django_filters.rest_framework import DjangoFilterBackend
+#----------------
 
 # Create your views here.
 def home(request):
@@ -33,7 +41,7 @@ def  no_rest_no_model(request):
 
 #2 model data defoult django without REST
 def no_rest_from_model(request):
-    data=User.objects.all()
+    data=User2.objects.all()
 
     #data=list(data.values())   #1
     data={"data":list(data.values("name","mobile")) } #2
@@ -52,7 +60,7 @@ def no_rest_from_model(request):
 @api_view(["GET","POST"])
 def fbv_user(request):
     if request.method=="GET":
-      data=User.objects.all()
+      data=User2.objects.all()
       serializer=UserSerializers(data,many=True)
       return Response(serializer.data)
     if request.method=="POST":
@@ -68,8 +76,8 @@ def fbv_user(request):
 @api_view(["GET","PUT","DELETE"])
 def fbv_user_id(request,id):
     try:
-        data=User.objects.get(id=id)
-    except User.DoesNotExist   :
+        data=User2.objects.get(id=id)
+    except User2.DoesNotExist   :
         response={"message":"not found"}
         return Response(response,status=status.HTTP_404_NOT_FOUND)
        
@@ -96,7 +104,7 @@ def fbv_user_id(request,id):
 #4.1 list and create  -> GET POST
 class CBV_List(APIView):
     def get(self,request):#two pramter
-         guests=User.objects.all()
+         guests=User2.objects.all()
          serializer_=UserSerializers(guests,many=True) #x serializer
          return Response(serializer_.data)
     def post(self,request):
@@ -114,8 +122,8 @@ class CBV_pk(APIView):
     
     def get_object(self,pK): #x  get_object
           try:
-             return User.objects.get(id=pK)
-          except User.DoesNotExist :
+             return User2.objects.get(id=pK)
+          except User2.DoesNotExist :
             raise Http404
 
        
@@ -142,7 +150,7 @@ class CBV_pk(APIView):
 #5 Mixins don't repeat yourself
 #5.1 mixins list
 class mixins_list(mixins.ListModelMixin,mixins.CreateModelMixin,generics.GenericAPIView):
-    queryset =User.objects.all() #X queryset
+    queryset =User2.objects.all() #X queryset
     serializer_class=UserSerializers  #X serializer_class
     def get(self,request):
         return self.list(request)
@@ -152,7 +160,7 @@ class mixins_list(mixins.ListModelMixin,mixins.CreateModelMixin,generics.Generic
 
 #5.2 mixins GET PUT DELETE      
 class mixins_pk(mixins.RetrieveModelMixin,mixins.UpdateModelMixin,mixins.DestroyModelMixin,generics.GenericAPIView):
-    queryset =User.objects.all()
+    queryset =User2.objects.all()
     serializer_class=UserSerializers
                                           
     def get(self,request,pk):
@@ -166,29 +174,57 @@ class mixins_pk(mixins.RetrieveModelMixin,mixins.UpdateModelMixin,mixins.Destroy
 
 #6.1 GET and POST
 class generics_list(generics.ListCreateAPIView):#ListCreateAPIView ,ListAPIView
-    queryset =User.objects.all()
+    queryset =User2.objects.all()
     serializer_class=UserSerializers
-
+    #======================-Basic=======================
+    # authentication_classes=[BasicAuthentication]
+    # permission_classes=[IsAuthenticated]
+    #=====================Tocken========================
+    authentication_classes=[TokenAuthentication]
+    # permission_classes=[IsAuthenticated]
 
 #6.2 GET PUT DELETE  
 class generics_pk(generics.RetrieveUpdateDestroyAPIView):
-    queryset =User.objects.all()
+    queryset =User2.objects.all()
     serializer_class=UserSerializers
+    #=============================================
+    # authentication_classes=[BasicAuthentication]
+    # permission_classes=[IsAuthenticated]
+   #-------------------Tocken-------------------
+    authentication_classes=[TokenAuthentication]
+
     
 
 #7  Viewsets  ALL 
 class viewsets_user(viewsets.ModelViewSet):
-     queryset =User.objects.all()
-     serializer_class=UserSerializers
+    queryset =User2.objects.all()
+    serializer_class=UserSerializers
+    #=============================================
+    authentication_classes=[BasicAuthentication]
+    permission_classes=[IsAuthenticated]
 
-# class viewsets_pk(generics.RetrieveUpdateDestroyAPIView):
-#     queryset=User.objects.all()
-#     serializer_class=UserSerializers
+
+
+
+
+
+class LogoutView(APIView):
+    """
+    Djano 5 does not have GET logout route anymore, so Django Rest Framework UI can't log out.
+    This is a workaround until Django Rest Framework implements POST logout.
+    Details: https://github.com/encode/django-rest-framework/issues/9206
+    """
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        logout(request)
+        return redirect('/')
 
 #---------------------A-----------------------------
      
 
 class viewsets_movie(viewsets.ModelViewSet):
+     
      queryset =Movie.objects.all()
      serializer_class=MovieSerializers
 
@@ -198,6 +234,11 @@ class viewsets_movie(viewsets.ModelViewSet):
      
      filter_backend=[filters.SearchFilter]
      search_fields=["name"]
+
+
+
+
+
 
 class viewsets_reservation(viewsets.ModelViewSet):
      queryset =Reservation.objects.all()
@@ -219,7 +260,7 @@ def find_movie(request):
 def new_reservation(request):
   
     movie=Movie.objects.get(movie=request.data["movie"],hall=request.data["hall"])
-    guest=User()
+    guest=User2()
     guest.name=request.data["name"]
     guest.mobile=request.data["mobile"]
     guest.save()
@@ -233,3 +274,13 @@ def new_reservation(request):
 
 
     return Response(serializer.data,status=status.HTTP_201_CREATED)
+#-------------------------------------------------
+class Post_List(generics.ListCreateAPIView):
+     permission_classes=[IsAuthorOrReadOnly]
+     queryset=Post.objects.all()
+     serializer_class=PostSerializers
+
+class Post_pk(generics.RetrieveUpdateDestroyAPIView):
+     permission_classes=[IsAuthorOrReadOnly]
+     queryset=Post.objects.all()
+     serializer_class=PostSerializers

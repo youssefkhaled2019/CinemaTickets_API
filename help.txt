@@ -51,18 +51,3 @@ rm db.sqlite3
 {% include 'partials/_navebar.html' %}
 {% block content %} {% endblock %}
 
----------------------------------------
-pip install djangorestframework
-pip install django-filter
----------------------------------------
-REST_FRAMEWORK = {  # <-----------
-    # 'DEFAULT_AUTHENTICATION_CLASSES': [
-     'rest_framework.authentication.BasicAuthentication', #username and  password
-    #     'rest_framework.authentication.SessionAuthentication',
-    # ],
-    # 'DEFAULT_PERMISSION_CLASSES': [
-       'rest_framework.permissions.IsAuthenticated'  #AllowAny ,IsAuthenticated ,  IsAdminUser   ,  IsAuthenticatedOrReadOnly 
-
-    # ]
-
-}

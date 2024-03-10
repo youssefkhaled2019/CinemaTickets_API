@@ -1,6 +1,6 @@
 from . import views
 from django.urls import path,include
-
+from rest_framework.authtoken.views import obtain_auth_token
 
 from rest_framework.routers import DefaultRouter
 router=DefaultRouter()
@@ -58,6 +58,28 @@ urlpatterns = [
     # http://127.0.0.1:8000/rest_viewsets/reservation/3
     path("rest_viewsets/",include(router.urls)), #api/rest/viewsets/guests
     
+    #logout
+    path('api-auth/logout/', views.LogoutView.as_view(), name='logout'),
+    path('api-auth/', include('rest_framework.urls')),
+
+    #token authentication
+    
+        #  --------------------NOTE-------------------get token
+        #  API = http://127.0.0.1:8000/api-token-auth/
+        # Method=POST
+        #  TEST =POSTMAN [BODY ->FROM DATA (key    ,value
+        #                                  usermar,youssef
+        #                                  ppassword,youssef    )] 
+        #  TEST =POSTMAN [BODY ->row select json {"username": "youssef","password": "youssef"}
+        #  --------------------NOTE-------------------get data by token 
+        # API = http://127.0.0.1:8000/rest_generics/
+        # Method=GET
+        #  TEST =POSTMAN [Headers   (key    , value)
+        #                        Authorization , Tocken b4662b832ac7f404c3bf3c332ef33e8ca33e3a39
+   #Token Authentication
+    # http://127.0.0.1:8000/api-token-auth/
+    path('api-token-auth/',obtain_auth_token),
+
     #--------------------------------------------------
     #find movie  
     # http://127.0.0.1:8000/find_movie              #postman
@@ -66,4 +88,18 @@ urlpatterns = [
     # create new reservation
     # http://127.0.0.1:8000/new_reservation             #postman
     path("new_reservation",views.new_reservation),
-]
+
+
+    #  post pk generics post_pk
+    # http://127.0.0.1:8000/rest_post_generics/
+    path("rest_post_generics/",views.Post_List.as_view()),
+     #  --------------------NOTE-------------------get token
+        #  API = http://127.0.0.1:8000/rest_post_generics/2
+        # Method=GET OR POST
+        #  TEST =POSTMAN [Authorization ->TYPE Basic Auth (key    ,value
+        #  and send with it data for update                 usermar,youssef
+        #                                                    ppassword,youssef    )] 
+        #  
+    # http://127.0.0.1:8000/rest_post_generics/2
+    path("rest_post_generics/<int:pk>",views.Post_pk.as_view()),
+ ]

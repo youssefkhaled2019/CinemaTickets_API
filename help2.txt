@@ -1,0 +1,58 @@
+git add .
+git commit -am "any comment"
+git push
+
+---------------------------------------
+pip install djangorestframework
+pip install django-filter
+---------------------------------------
+
+
+================================global===============================
+REST_FRAMEWORK = {
+
+#     'DEFAULT_AUTHENTICATION_CLASSES': [
+#         'rest_framework.authentication.BasicAuthentication',##username and password
+#                                       ], 
+#     'DEFAULT_PERMISSION_CLASSES': [
+#        'rest_framework.permissions.IsAuthenticated', #AllowAny ,IsAuthenticated ,  IsAdminUser   ,  IsAuthenticatedOrReadOnly 
+#                                ]
+# }
+
+
+--------------------token---------------------------
+
+
+INSTALLED_APPS = [
+
+    'rest_framework',#<-------
+    'rest_framework.authtoken'  # <-----------
+
+]
+
+REST_FRAMEWORK = {
+
+  'DEFAULT_AUTHENTICATION_CLASSES': [
+      'rest_framework.authentication.TokenAuthentication',
+  ]
+
+ }
+
+
+
+
+
+>>> python manage.py migrate
+-----------------------------------------------
+# REST_FRAMEWORK = {
+
+#     'DEFAULT_AUTHENTICATION_CLASSES': [
+#                 'rest_framework.authentication.BasicAuthentication',##username and password
+#     #     'rest_framework.authentication.TokenAuthentication',
+#         # 'rest_framework.authentication.SessionAuthentication',
+#     ],
+#     'DEFAULT_PERMISSION_CLASSES': [
+#        'rest_framework.permissions.IsAuthenticated', #AllowAny ,IsAuthenticated ,  IsAdminUser   ,  IsAuthenticatedOrReadOnly 
+
+#     ]
+# }

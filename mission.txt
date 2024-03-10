@@ -1,3 +1,4 @@
+                                         ======================== Api Hub ========================
 ========================
 day_1    create user ,movie,Reservation model
          create Serializer.py content MoveSerializers ,UserSerializers,ReservationSerializers 
@@ -14,4 +15,8 @@ day_2    create api  - CBV_List                      get-post
 day_3    create api  - generics_list                      get-post
                      - generics_pk                        get-put-delete
                      - viewsets_user                   get-post-get_pk-put_pk-delete_pk
-                   
+ ========================                   
+ day_4    - BasicAuthentication
+          - create tocken  connect with user 
+          - custom permissions
+          - post model and PostSerializers
