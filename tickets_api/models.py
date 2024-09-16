@@ -1,7 +1,10 @@
 from django.db import models
+
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
 from rest_framework.authtoken.models import Token
+
 from django.conf import settings
 from django.contrib.auth.models import User
 # Create your models here.
@@ -45,16 +48,14 @@ class Reservation(models.Model):
 #------------------------------------
 class Post(models.Model):
     author=models.ForeignKey(User,on_delete=models.CASCADE)
-    title=models.CharField(max_length=50)
+    title=models.CharField(max_length=50 )
     body=models.TextField()
 
 
 # #------------------------------------
 
-#create token auto in token model
-@receiver(post_save,sender=settings.AUTH_USER_MODEL)
+# @receiver(post_save,sender=settings.AUTH_USER_MODEL)
+@receiver(post_save,sender=User)
 def TokenCreate(sender,instance,created,**Kwargs):
     if created:
         Token.objects.create(user=instance)
-
-

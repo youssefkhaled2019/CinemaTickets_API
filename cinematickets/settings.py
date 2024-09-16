@@ -39,18 +39,32 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'tickets_api',
     'rest_framework',#<-------
-    'rest_framework.authtoken'  # <-----------
+    'rest_framework.authtoken'  # <-----------authtoken
 
 ]
 
+#1
+# REST_FRAMEWORK = {
 
-REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': [
+#                 'rest_framework.authentication.BasicAuthentication',##username and password
+#                 ],
+#     'DEFAULT_PERMISSION_CLASSES': [
+#        'rest_framework.permissions.IsAuthenticated', #AllowAny ,IsAuthenticated ,  IsAdminUser   ,  IsAuthenticatedOrReadOnly 
+
+#     ]
+# }
+#2
+# REST_FRAMEWORK = {
 
 #   'DEFAULT_AUTHENTICATION_CLASSES': [
 #       'rest_framework.authentication.TokenAuthentication',
-#   ]
+#   ],
+#     'DEFAULT_PERMISSION_CLASSES': [
+#        'rest_framework.permissions.IsAuthenticated', #AllowAny ,IsAuthenticated ,  IsAdminUser   ,  IsAuthenticatedOrReadOnly 
 
- }
+#     ]
+#  }
 
 
 

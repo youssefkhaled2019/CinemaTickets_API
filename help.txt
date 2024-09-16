@@ -18,7 +18,7 @@ create repo in github
 -------------open project------------------------
 
 -------------------------------------------------
-django-admin startproject projentname   #creat project name  
+django-admin startproject projentname .  #creat project name  
 python manage.py runserver            #runserver
 python manage.py migrate   # for update 18 unapplied migration(s)
 python manage.py startapp pages   # for add app  name is pages

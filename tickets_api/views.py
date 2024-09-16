@@ -8,18 +8,19 @@ from .serializers import MovieSerializers ,UserSerializers,ReservationSerializer
 from  rest_framework.response import Response
 from  rest_framework import status ,filters ,generics,mixins,viewsets,permissions
 from rest_framework.views import APIView
+from django_filters.rest_framework import DjangoFilterBackend
 #----------------
 from rest_framework.authentication import BasicAuthentication,TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated,AllowAny
 #----------------
-from .permissions import IsAuthorOrReadOnly 
+from .permissions import IsAuthorOrReadOnly ,IsAuthor
 #----------------
-# from django_filters.rest_framework import DjangoFilterBackend
 #----------------
 
 # Create your views here.
 def home(request):
     return HttpResponse("api")
+#----------------
 
 #1 without REST and no mode query FBV
 def  no_rest_no_model(request):
@@ -37,7 +38,7 @@ def  no_rest_no_model(request):
         }
     ]
     return JsonResponse(data,safe=False)  #data without huch
-
+#----------------
 
 #2 model data defoult django without REST
 def no_rest_from_model(request):
@@ -47,13 +48,10 @@ def no_rest_from_model(request):
     data={"data":list(data.values("name","mobile")) } #2
 
     return JsonResponse(data) #safe=False #1
+#----------------
 
-# LIST =GET
-# CREARTE =POST
 
-# PK QURE=GET
-# UPDATE=PUT
-# DELETE=DELETE
+
 
 #function based views
 #3.1 GET POST
@@ -69,7 +67,6 @@ def fbv_user(request):
            serializer.save()
            return Response(serializer.data,status=status.HTTP_201_CREATED)
        return Response({"message":"error"},status=status.HTTP_400_BAD_REQUEST)#serializer.data
-    
 
 #function based views
 #3.2 GET PUT DELETE
@@ -98,7 +95,9 @@ def fbv_user_id(request,id):
         data.delete()
         response={"message":"delete data "}
         return Response(response,status=status.HTTP_204_NO_CONTENT)
-    
+ #----------------
+   
+#----------------
 
 #CBV class based views
 #4.1 list and create  -> GET POST
@@ -144,7 +143,9 @@ class CBV_pk(APIView):
     def delete(self,request,pK):
            guest=self.get_object(pK)
            guest.delete()
-           return Response(status=status.HTTP_204_NO_CONTENT)
+           response={"message":"delete data "}
+           return Response(response,status=status.HTTP_204_NO_CONTENT)
+#----------------
 
 
 #5 Mixins don't repeat yourself
@@ -168,7 +169,12 @@ class mixins_pk(mixins.RetrieveModelMixin,mixins.UpdateModelMixin,mixins.Destroy
     def put(self,request,pk):
         return self.update(request) 
     def delete(self,request,pk):
-        return self.destroy(request)    
+        # return self.destroy(request)  # If an object is deleted this returns a 204 No Content response, otherwise it will return a 404 Not Found.
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        response={"message":"delete data "}
+        return Response(response,status=status.HTTP_204_NO_CONTENT)   
+#----------------
     
 #6 Generics
 
@@ -177,21 +183,23 @@ class generics_list(generics.ListCreateAPIView):#ListCreateAPIView ,ListAPIView
     queryset =User2.objects.all()
     serializer_class=UserSerializers
     #======================-Basic=======================
-    # authentication_classes=[BasicAuthentication]
+    # authentication_classes=[BasicAuthentication] #notwork
     # permission_classes=[IsAuthenticated]
     #=====================Tocken========================
-    authentication_classes=[TokenAuthentication]
+    # authentication_classes=[TokenAuthentication]
     # permission_classes=[IsAuthenticated]
 
 #6.2 GET PUT DELETE  
 class generics_pk(generics.RetrieveUpdateDestroyAPIView):
     queryset =User2.objects.all()
     serializer_class=UserSerializers
-    #=============================================
-    # authentication_classes=[BasicAuthentication]
-    # permission_classes=[IsAuthenticated]
-   #-------------------Tocken-------------------
-    authentication_classes=[TokenAuthentication]
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        response={"message":"delete data "}
+        return Response(response,status=status.HTTP_204_NO_CONTENT)
+#----------------
 
     
 
@@ -199,63 +207,62 @@ class generics_pk(generics.RetrieveUpdateDestroyAPIView):
 class viewsets_user(viewsets.ModelViewSet):
     queryset =User2.objects.all()
     serializer_class=UserSerializers
-    #=============================================
-    authentication_classes=[BasicAuthentication]
-    permission_classes=[IsAuthenticated]
 
 
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        response={"message":"delete data "}
+        return Response(response,status=status.HTTP_204_NO_CONTENT)
 
-
-
-
-class LogoutView(APIView):
-    """
-    Djano 5 does not have GET logout route anymore, so Django Rest Framework UI can't log out.
-    This is a workaround until Django Rest Framework implements POST logout.
-    Details: https://github.com/encode/django-rest-framework/issues/9206
-    """
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get(self, request):
-        logout(request)
-        return redirect('/')
-
-#---------------------A-----------------------------
-     
 
 class viewsets_movie(viewsets.ModelViewSet):
-     
+    #  authentication_classes=[BasicAuthentication]
+    #  permission_classes=[IsAuthenticated]
+    #-------------------Tocken-------------------
+     authentication_classes=[TokenAuthentication]
+     permission_classes=[IsAuthenticated]#[IsAuthenticated,AllowAny]
      queryset =Movie.objects.all()
      serializer_class=MovieSerializers
 
+    
+   
+
+
+
+
+
+    #=============================================
     #  filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     #  filterset_fields = ["hall"]
     #  search_fields = ["name"]
      
-     filter_backend=[filters.SearchFilter]
-     search_fields=["name"]
+    #  filter_backend=[DjangoFilterBackend,filters.SearchFilter,]
+    #  filterset_fields = ["name",]
+    #  search_fields=["name",]
 
-
-
-
-
+    #  def get_queryset(self):
+    #     queryset = self.queryset
+    # company_id = self.request.query_parameters.get('company', None)
+    #     query_set = queryset.filter(user=self.request.user)
+    #     return query_set
 
 class viewsets_reservation(viewsets.ModelViewSet):
      queryset =Reservation.objects.all()
      serializer_class=ReservationSerializers
-
-#-------------------------B-------------------------
- #8 find movie     by  function based views
+#----------------
+#8 find movie     by  function based views
 @api_view(["GET"])  #postman 
 def find_movie(request):
 
     # movies=Movie.objects.filter(movie=request.data["movie"],hall=request.data["hall"])
-    movies=Movie.objects.filter(movie__contains=request.data["movie"]) 
+    movies=Movie.objects.filter(movie__contains=request.data["movie"]) #request.data["movie"]
      
     serializer=MovieSerializers(movies,many=True)
     return Response(serializer.data)
+#----------------
 
-# create new reservation
+# 9-create new reservation
 @api_view(["POST"])  #postman 
 def new_reservation(request):
   
@@ -274,13 +281,39 @@ def new_reservation(request):
 
 
     return Response(serializer.data,status=status.HTTP_201_CREATED)
+
 #-------------------------------------------------
 class Post_List(generics.ListCreateAPIView):
-     permission_classes=[IsAuthorOrReadOnly]
+     authentication_classes=[TokenAuthentication]
+     permission_classes=[IsAuthenticated]
      queryset=Post.objects.all()
      serializer_class=PostSerializers
 
 class Post_pk(generics.RetrieveUpdateDestroyAPIView):
-     permission_classes=[IsAuthorOrReadOnly]
+     authentication_classes=[TokenAuthentication]
+     permission_classes=[IsAuthorOrReadOnly]#IsAuthorOrReadOnly,IsAuthor
      queryset=Post.objects.all()
      serializer_class=PostSerializers
+
+
+
+#----------------
+
+
+class LogoutView(APIView):
+    """
+    Djano 5 does not have GET logout route anymore, so Django Rest Framework UI can't log out.
+    This is a workaround until Django Rest Framework implements POST logout.
+    Details: https://github.com/encode/django-rest-framework/issues/9206
+    """
+    # permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        logout(request)
+        return redirect('/')
+
+#---------------------A-----------------------------
+     
+
+
+

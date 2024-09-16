@@ -4,7 +4,10 @@ git push
 
 ---------------------------------------
 pip install djangorestframework
+
+
 pip install django-filter
+
 ---------------------------------------
 
 
@@ -56,3 +59,18 @@ REST_FRAMEWORK = {
 
 #     ]
 # }
+
+
+-----------------------------------------------
+
+REST_FRAMEWORK = {
+
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+                'rest_framework.authentication.BasicAuthentication',##username and password
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+       'rest_framework.permissions.IsAuthenticated', #AllowAny ,IsAuthenticated ,  IsAdminUser   ,  IsAuthenticatedOrReadOnly 
+
+    ]
+}
+-----------------------------------------------
