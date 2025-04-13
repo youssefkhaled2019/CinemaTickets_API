@@ -1,0 +1,596 @@
+{
+	"info": {
+		"_postman_id": "74d18a1a-aae5-48a3-a63f-a2cc825873b1",
+		"name": "CinemaTickets_API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "30649107"
+	},
+	"item": [
+		{
+			"name": "1_no_rest_no_model",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://127.0.0.1:8000/no_rest_no_model"
+			},
+			"response": []
+		},
+		{
+			"name": "2_no_rest_from_model",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://127.0.0.1:8000/no_rest_from_model"
+			},
+			"response": []
+		},
+		{
+			"name": "3.1_function_based_view_GET",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://127.0.0.1:8000/fbv_user"
+			},
+			"response": []
+		},
+		{
+			"name": "3.1_function_based_view_POST",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n    \r\n        \"reservation\": [],\r\n        \"name\": \"XXXX\",\r\n        \"mobile\": \"012\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8000/fbv_user"
+			},
+			"response": []
+		},
+		{
+			"name": "3.2_function_based_view_by_id_GET",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://127.0.0.1:8000/fbv_user_id/7"
+			},
+			"response": []
+		},
+		{
+			"name": "3.2_function_based_view_by_id_PUT",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"reservation\": [],\r\n    \"name\": \"CVCV\",\r\n    \"mobile\": \"DFDFD\"\r\n}\r\n//reservation SEND EMPTY",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8000/fbv_user_id/7"
+			},
+			"response": []
+		},
+		{
+			"name": "3.2_function_based_view_by_id_DELETE",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://127.0.0.1:8000/fbv_user_id/6"
+			},
+			"response": []
+		},
+		{
+			"name": "4.1_class_based_view_GET",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://127.0.0.1:8000/rest_cbv/"
+			},
+			"response": []
+		},
+		{
+			"name": "4.1_class_based_view_POST",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n   \r\n        \"reservation\": [],\r\n        \"name\": \"NEWNEW\",\r\n        \"mobile\": \"0125\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8000/rest_cbv/"
+			},
+			"response": []
+		},
+		{
+			"name": "4.2class based view_by_id_GET",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://127.0.0.1:8000/rest_cbv/12"
+			},
+			"response": []
+		},
+		{
+			"name": "4.2class based view_by_id_PUT",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"reservation\": [13],\r\n    \"name\": \"CVCV\",\r\n    \"mobile\": \"DDDD\"\r\n}\r\n//reservation SEND EMPTY",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8000/rest_cbv/12"
+			},
+			"response": []
+		},
+		{
+			"name": "4.2class based view_by_id_DELETE",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8000/rest_cbv/14"
+			},
+			"response": []
+		},
+		{
+			"name": "5.1_Mixins_GET",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://127.0.0.1:8000/rest_mixins/"
+			},
+			"response": []
+		},
+		{
+			"name": "5.1_Mixins_POST",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n    \r\n        \"reservation\": [12,13,14],\r\n        \"name\": \"DSDS\",\r\n        \"mobile\": \"012\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8000/rest_mixins/"
+			},
+			"response": []
+		},
+		{
+			"name": "5.2_Mixins_by_id_GET",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://127.0.0.1:8000/rest_mixins/15"
+			},
+			"response": []
+		},
+		{
+			"name": "5.2_Mixins_by_id_DELETE",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://127.0.0.1:8000/rest_mixins/12"
+			},
+			"response": []
+		},
+		{
+			"name": "5.2_Mixins_by_id_PUT",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"reservation\": [],\r\n    \"name\": \"DSDS\",\r\n    \"mobile\": \"0125552\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8000/rest_mixins/15"
+			},
+			"response": []
+		},
+		{
+			"name": "6.1_generics_GET",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://127.0.0.1:8000/rest_generics/"
+			},
+			"response": []
+		},
+		{
+			"name": "6.1_generics_POST",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n   \r\n        \"reservation\": [],\r\n        \"name\": \"NEWNEW\",\r\n        \"mobile\": \"0125\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8000/rest_generics/"
+			},
+			"response": []
+		},
+		{
+			"name": "6.2_generics_by_id_GET",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://127.0.0.1:8000/rest_generics/16"
+			},
+			"response": []
+		},
+		{
+			"name": "6.2_generics_by_id_PUT",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"reservation\": [],\r\n    \"name\": \"DSDS\",\r\n    \"mobile\": \"54454545\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8000/rest_generics/16"
+			},
+			"response": []
+		},
+		{
+			"name": "6.2_generics_by_id_DELETE",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://127.0.0.1:8000/rest_generics/13"
+			},
+			"response": []
+		},
+		{
+			"name": "7.1_viewsets_USER_GET",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://127.0.0.1:8000/rest_viewsets/user/"
+			},
+			"response": []
+		},
+		{
+			"name": "7.1_viewsets_USER_POST",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n   \r\n        \"reservation\": [],\r\n        \"name\": \"NEWNEW\",\r\n        \"mobile\": \"0125\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8000/rest_viewsets/user/"
+			},
+			"response": []
+		},
+		{
+			"name": "7.1_viewsets_USER_by_id_GET",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://127.0.0.1:8000/rest_viewsets/user/12"
+			},
+			"response": []
+		},
+		{
+			"name": "7.1_viewsets_USER_by_id_PUT",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"reservation\": [],\r\n    \"name\": \"DSDS\",\r\n    \"mobile\": \"2555\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8000/rest_viewsets/user/18/"
+			},
+			"response": []
+		},
+		{
+			"name": "7.1_viewsets_USER_by_id_DELETE",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://127.0.0.1:8000/rest_viewsets/user/19/"
+			},
+			"response": []
+		},
+		{
+			"name": "7.2_viewsets_MOVE_GET",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 9683695cfb4d71f4ebe492141e7248156102c270",
+						"type": "text"
+					}
+				],
+				"url": "http://127.0.0.1:8000/rest_viewsets/movie/"
+			},
+			"response": []
+		},
+		{
+			"name": "7.2_viewsets_MOVE_POST",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n\r\n        \"movie\": \"nare 2\",\r\n        \"hall\": \"a1\",\r\n        \"time\": \"2024-01-14\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8000/rest_viewsets/movie/"
+			},
+			"response": []
+		},
+		{
+			"name": "7.2_viewsets_MOVE_by_id_GET",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://127.0.0.1:8000/rest_viewsets/movie/2/"
+			},
+			"response": []
+		},
+		{
+			"name": "7.2_viewsets_MOVE_by_id_PUT",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"movie\": \"ssss\",\r\n    \"hall\": \"a34\",\r\n    \"time\": \"2024-03-21\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8000/rest_viewsets/movie/3/"
+			},
+			"response": []
+		},
+		{
+			"name": "7.2_viewsets_MOVE_by_id_DELETE",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://127.0.0.1:8000/rest_viewsets/movie/3/"
+			},
+			"response": []
+		},
+		{
+			"name": "7.3_viewsets_RECERVATION_GET",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://127.0.0.1:8000/rest_viewsets/reservation"
+			},
+			"response": []
+		},
+		{
+			"name": "7.3_viewsets_RECERVATION_POST",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n        \"user\": 12,\r\n        \"movie\": 2\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8000/rest_viewsets/reservation/"
+			},
+			"response": []
+		},
+		{
+			"name": "7.3_viewsets_RECERVATION_by_id_GET",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://127.0.0.1:8000/rest_viewsets/reservation/11/"
+			},
+			"response": []
+		},
+		{
+			"name": "7.3_viewsets_RECERVATION_by_id_PUT",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n    \"user\": 12,\r\n    \"movie\": 4\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8000/rest_viewsets/reservation/11/"
+			},
+			"response": []
+		},
+		{
+			"name": "7.3_viewsets_RECERVATION_by_id_DELETE",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://127.0.0.1:8000/rest_viewsets/reservation/11/"
+			},
+			"response": []
+		},
+		{
+			"name": "8-find_movie",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"movie\":\"nare\"\r\n}\r\n//function_based_view"
+				},
+				"url": ""
+			},
+			"response": []
+		},
+		{
+			"name": "9_new_reservation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"movie\": \"gggg\",\r\n    \"hall\": \"A2\",\r\n    \"name\": \"XXXX\",\r\n    \"mobile\": \"012\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8000/new_reservation"
+			},
+			"response": []
+		},
+		{
+			"name": "10-login_tocken",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "// {\r\n//     \"username\": \"youssef\",\r\n//     \"password\": \"youssef\",\r\n// }\r\n{\"username\": \"youssef\",\"password\": \"youssef\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8000/api-token-auth/"
+			},
+			"response": []
+		},
+		{
+			"name": "11_list_posts",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 9683695cfb4d71f4ebe492141e7248156102c270",
+						"type": "text"
+					}
+				],
+				"url": "http://127.0.0.1:8000/rest_post_generics"
+			},
+			"response": []
+		},
+		{
+			"name": "12_create_posts_POST",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 9683695cfb4d71f4ebe492141e7248156102c270",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "  {\r\n\r\n        \"title\": \"qqqqq\",\r\n        \"body\": \"qqqqqqqqqqqqq\",\r\n        \"author\": 1\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8000/rest_post_generics"
+			},
+			"response": []
+		},
+		{
+			"name": "12-IsAuthor",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 9683695cfb4d71f4ebe492141e7248156102c270",
+						"type": "text"
+					}
+				],
+				"url": "http://127.0.0.1:8000/rest_post_generics/1"
+			},
+			"response": []
+		}
+	]
+}
