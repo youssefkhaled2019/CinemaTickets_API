@@ -1,9 +1,0 @@
-http://127.0.0.1:8000/find_movie/
-  body
-    -x-www-form-urlencoded
-         add key :value
-         --------------
-              movie
-              hall
----------------------------------------
-http://127.0.0.1:8000/new_reservation/  
